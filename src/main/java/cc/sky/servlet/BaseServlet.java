@@ -50,7 +50,7 @@ public class BaseServlet extends HttpServlet {
             if( result==null || result.isEmpty() ){
                 return;
             }
-           String[] strings = result.split(":");
+            String[] strings = result.split(":");
             System.out.println(count++);
             System.out.println(Arrays.toString(strings));
             if (strings[0].equals("f")){
@@ -92,7 +92,19 @@ public class BaseServlet extends HttpServlet {
         return "f:/index.jsp";
     }
 
-    public String SelectByName(String name){
+    public String SelectByName(HttpServletRequest req, HttpServletResponse resp) {
+        DaoStu daoStu = new DaoStu();
+        String name = req.getParameter("username");
+        User u = daoStu.SelectByName(name);
+        try {
+            if (u == null) {
+                resp.getWriter().print("v");
+            } else {
+                resp.getWriter().print("this name already be sign in");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         return null;
     }
@@ -113,7 +125,7 @@ public class BaseServlet extends HttpServlet {
         return "f:/index.jsp";
     }
     public String TestU(HttpServletRequest req, HttpServletResponse resp){
-        Number number = (Number) DaoTest.TestD();
+        Number number = DaoTest.TestD();
         ++count;
         i =number.intValue()+count;
         String co  = String.valueOf(i);

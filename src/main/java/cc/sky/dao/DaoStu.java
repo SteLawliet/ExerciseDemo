@@ -5,6 +5,7 @@ import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 import org.apache.commons.dbutils.DbUtils;
 import org.apache.commons.dbutils.QueryRunner;
+import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -31,6 +32,7 @@ public class DaoStu {
         ds = new ComboPooledDataSource();
         }
     }
+
     public List<User> FindAll(){
         String sql ="Select * from table_user";
         QueryRunner qR = new QueryRunner(ds);
@@ -43,6 +45,21 @@ public class DaoStu {
         }
         return list;
 
+    }
+
+    public User SelectByName(String name) {
+
+        String sql = "Select * from table_user where username = ?";
+
+        QueryRunner qR = new QueryRunner(ds);
+        User user = null;
+        try {
+            user = qR.query(sql, new BeanHandler<User>(User.class), name);
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return user;
     }
     public void Add(User u){
         String sql="Insert table_user VALUES(null,?,?)";
@@ -98,8 +115,9 @@ public class DaoStu {
     @Test
     @Ignore
     public void fun3(){
-        User u = new User("50","123","123");
-        Update(u);
+        User u = SelectByName("zzq55");
+
+        System.out.println(u);
 
     }
 

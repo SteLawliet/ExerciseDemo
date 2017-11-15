@@ -13,7 +13,7 @@
     <title>Title</title>
     <style type="text/css">
         table,th,td{
-            border: 1px;
+
 
         }
         td input{
@@ -27,7 +27,7 @@
     </style>
 </head>
 <body>
-<table width="60%"  align="center" cellpadding="10px" cellspacing="0" border="1">
+<table width="60%" align="center" cellpadding="10px" cellspacing="0" border="1px">
     <tr bgcolor="#5f9ea0">
         <th>uid</th>
         <th>username</th>
@@ -35,33 +35,41 @@
         <th>operation</th>
         <th>editor</th>
     </tr>
+
+    <%
+        int i = 0;
+        session.setAttribute("i", i);
+    %>
     <c:forEach items="${pageContext.session.getAttribute('UserList')}" var="user" >
         <form action="<c:url value='/BServlet'/>" method="post">
-        <input type="hidden" name="method" value="Update">
-        <tr>
-            <td> <input  type="text" name="uid" value="${user.uid}" readonly="readonly"></td>
-            <td>
-                <input type="text" name="username" value="${user.username}">
-                    <%--<c:out value="${user.username}"/>--%>
+            <input type="hidden" name="method" value="Update">
+            <tr>
+                <%
+                    i = i + 1;
+                    session.setAttribute("i", i);
+                %>
+                <td><input type="text" name="uid" value="${i}" readonly="readonly"></td>
+                <td>
+                    <input type="text" name="username" value="${user.username}">
+                        <%--<c:out value="${user.username}"/>--%>
 
-            </td>
-            <td>
-                <input type="text" name="password" value="${user.password}">
-                    <%--<c:out value="${user.password}"/>--%>
-            </td>
-            <td>
-                <a href="<c:url value='/BServlet?method=DeleteUser&username=${user.username}'/>">
-                    del
-                </a>
-            </td>
-            <td>
-                <%--<a href="<c:url value='/BServlet?method=Update'/>">--%>
-                    <%--&username=${user.username}&username=${user.password}--%>
-
-                <%--</a>--%>
-                <input type="submit" value="editor">
-            </td>
-        </tr>
+                </td>
+                <td>
+                    <input type="text" name="password" value="${user.password}">
+                        <%--<c:out value="${user.password}"/>--%>
+                </td>
+                <td>
+                    <a href="<c:url value='/BServlet?method=DeleteUser&username=${user.username}'/>">
+                        del
+                    </a>
+                </td>
+                <td>
+                        <%--<a href="<c:url value='/BServlet?method=Update'/>">--%>
+                        <%--&username=${user.username}&username=${user.password}--%>
+                        <%--</a>--%>
+                    <input type="submit" value="editor">
+                </td>
+            </tr>
         </form>
     </c:forEach>
 </table>

@@ -11,6 +11,18 @@
 <html>
 <head>
     <title>$Title$</title>
+    <script type="text/javascript">
+        var username = document.getElementById("username");
+        username.onchange = function () {
+            var request = new XMLHttpRequest();
+            request.open("POST", "<c:url value='/BServlet'/>", true);
+            request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            //"Content-Type", "application/x-www-form-urlencoded"
+            request.send("method=SelectByName&" + username.value);
+            alert(username.value);
+            var text = request.responseText;
+        }
+    </script>
 </head>
 <body>
 Sky.hello word every one
@@ -19,11 +31,15 @@ Sky.hello word every one
 </p>
 
 <div align="center">
-    <p>${msg}</p>
+    <p id="msg" style="color: cadetblue">${msg}</p>
 <form action="<c:url value='/BServlet'/>" method="get">
-    <input type="hidden" name="method" value="Add">
-    username:<input type="text" name="username" ><br>
-    password:<input type="text" name="password"><br>
+    <input type="hidden" name="method" value="Add" id="username">
+    username:<label id="l">
+    <input type="text" name="username">
+</label><br>
+    password:<label>
+    <input type="text" name="password">
+</label><br>
     <input type="submit" value="Add">
 </form>
 </div>
