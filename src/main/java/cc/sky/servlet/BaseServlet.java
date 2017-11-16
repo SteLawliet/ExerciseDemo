@@ -4,7 +4,10 @@ package cc.sky.servlet;
 
 import com.github.flyinghe.tools.CommonUtils;
 
+import org.apache.commons.beanutils.BeanUtils;
+
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
@@ -15,6 +18,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import cc.sky.Domain.PageBean;
 import cc.sky.Domain.User;
 import cc.sky.dao.DaoStu;
 import cc.sky.dao.DaoTest;
@@ -25,6 +29,7 @@ import cc.sky.dao.DaoTest;
 //@WebServlet(name = "BaseServlet",urlPatterns = "/BServlet")
 public class BaseServlet extends HttpServlet {
     public static int count =0;
+
     public static int i = 0;
 
     @Override
@@ -51,8 +56,6 @@ public class BaseServlet extends HttpServlet {
                 return;
             }
             String[] strings = result.split(":");
-            System.out.println(count++);
-            System.out.println(Arrays.toString(strings));
             if (strings[0].equals("f")){
                 req.getRequestDispatcher(strings[1]).forward(req,resp);
             }else if (strings[0].equals("r")){
@@ -66,15 +69,21 @@ public class BaseServlet extends HttpServlet {
     }
 
     public String FindAll(HttpServletRequest req, HttpServletResponse resp){
-
         DaoStu daoStu = new DaoStu();
-
         List<User> list = daoStu.FindAll();
-
-        req.getSession().setAttribute("UserList",list);
-
+        String currentPage = req.getParameter("currentPage");
+        int currentPage0 = currentPage == null || currentPage.equals("")
+                ? 1 : Integer.parseInt(currentPage);
+        PageBean pageBean =
+                new PageBean(list, currentPage0, list.size(), 8);
+        List<User> list0 = list.subList(pageBean.getStartPage(), pageBean.getLastPage());
+        System.out.println("lastIndex =" + pageBean.getLastPage());
+        System.out.println("MaxIndex =" + (list.size() - 1));
+        req.setAttribute("UserList", list0);
+        req.setAttribute("PageBean", pageBean);
         return "f:/index.jsp";
     }
+
 
     public String Add(HttpServletRequest req, HttpServletResponse resp){
 
@@ -98,9 +107,9 @@ public class BaseServlet extends HttpServlet {
         User u = daoStu.SelectByName(name);
         try {
             if (u == null) {
-                resp.getWriter().print("v");
+                resp.getWriter().print(" ✅ ");
             } else {
-                resp.getWriter().print("this name already be sign in");
+                resp.getWriter().print("the id already be sign up");
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -111,7 +120,24 @@ public class BaseServlet extends HttpServlet {
 
     public String Update(HttpServletRequest req, HttpServletResponse resp){
         DaoStu daoStu = new DaoStu();
-        User user = CommonUtils.toBean(req.getParameterMap(),User.class);
+        User user = new User();
+        try {
+            BeanUtils.populate(user, req.getParameterMap());
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
+        System.out.println("user =" + user);
+        User user1 = new User();
+        try {
+            BeanUtils.populate(user1, req.getParameterMap());
+            System.out.println("user1 =" + user1);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
         daoStu.Update(user);
         req.getSession().setAttribute("UserList",daoStu.FindAll());
         return "f:/index.jsp";

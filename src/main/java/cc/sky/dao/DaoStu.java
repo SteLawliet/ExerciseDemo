@@ -43,6 +43,11 @@ public class DaoStu {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+
+        for (int i = 0; i < list.size(); i++) {
+            list.get(i).setId(i + 1);
+        }
+
         return list;
 
     }

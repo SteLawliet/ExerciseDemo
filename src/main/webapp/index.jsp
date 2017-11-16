@@ -10,42 +10,53 @@
 <%@ page isELIgnored ="false"%>
 <html>
 <head>
-    <title>$Title$</title>
+
+    <title>Title</title>
+    <style type="text/css">
+        #div1 {
+            width: 75%;
+            height: auto;
+            margin: 0% 28%;
+        }
+    </style>
     <script type="text/javascript">
-        var username = document.getElementById("username");
-        username.onchange = function () {
-            var request = new XMLHttpRequest();
-            request.open("POST", "<c:url value='/BServlet'/>", true);
-            request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-            //"Content-Type", "application/x-www-form-urlencoded"
-            request.send("method=SelectByName&" + username.value);
-            alert(username.value);
-            var text = request.responseText;
+        window.onload = function () {
+            var username = document.getElementById("username");
+            username.onchange = function () {
+                var request = new XMLHttpRequest();
+                request.open("POST", "<c:url value='/BServlet'/>", true);
+                request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                //"Content-Type", "application/x-www-form-urlencoded"
+                request.send("method=SelectByName&username=" + username.value);
+                request.onreadystatechange = function () {
+                    var text = request.responseText;
+                    var msg = document.getElementById("msg");
+                    msg.innerHTML = text;
+                }
+            }
         }
     </script>
 </head>
 <body>
-Sky.hello word every one
-<p>
-    <a href="<c:url value='/BServlet?method=FindAll'/>">AServlet</a>
-</p>
-
-<div align="center">
-    <p id="msg" style="color: cadetblue">${msg}</p>
+<%--<div align="center">--%>
+<div id="div1">
+    <%--<p id="msg" style="color: cadetblue">&nbsp;${msg}</p>--%>
 <form action="<c:url value='/BServlet'/>" method="get">
-    <input type="hidden" name="method" value="Add" id="username">
+    <input type="hidden" name="method" value="Add" align="left">
     username:<label id="l">
-    <input type="text" name="username">
+    <input type="text" name="username" id="username" size="20"> <a id="msg"
+                                                                   style="color: cadetblue">&nbsp;${msg}</a>
 </label><br>
     password:<label>
-    <input type="text" name="password">
+    <input type="text" name="password" size="20" align="left">
 </label><br>
     <input type="submit" value="Add">
 </form>
 </div>
 <jsp:include page="/jsp/FindAll.jsp"/>
 
-<p><a href="<c:url value='jsp/Test.jsp'/>">Test.jsp</a></p>
+<p><a href="<c:url value='/BServlet?method=FindAll'/>">AServlet</a>&nbsp;&nbsp;<a
+        href="<c:url value='jsp/Test.jsp'/>">Test.jsp</a></p>
 <br>
 <%--tsetgit--%>
 <!--ss-->

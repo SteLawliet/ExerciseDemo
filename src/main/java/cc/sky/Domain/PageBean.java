@@ -1,5 +1,9 @@
 package cc.sky.Domain;
 
+import org.junit.Ignore;
+import org.junit.Test;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,21 +19,21 @@ public class PageBean {
     private int totalCount;
     private int pageSize;
 
-    public PageBean() {
-    }
-
-    public PageBean(List<User> data, int firstPage,
-                    int prePage, int nextPage, int totalPage,
-                    int currentPage, int totalCount, int pageSize) {
+    public PageBean(List<User> data, int currentPage, int totalCount, int pageSize) {
         this.data = data;
-        this.firstPage = firstPage;
-        this.prePage = prePage;
-        this.nextPage = nextPage;
-        this.totalPage = totalPage;
+        this.firstPage = 1;
         this.currentPage = currentPage;
+        this.totalPage = totalCount % pageSize == 0
+                ? totalCount / pageSize : totalCount / pageSize + 1;
+        this.prePage = currentPage - 1 < firstPage ? currentPage : currentPage - 1;
+        this.nextPage = currentPage + 1 > totalPage ? currentPage : currentPage + 1;
         this.totalCount = totalCount;
         this.pageSize = pageSize;
     }
+
+    public PageBean() {
+    }
+
 
     public List<User> getData() {
         return data;
@@ -52,15 +56,34 @@ public class PageBean {
     }
 
     public int getCurrentPage() {
+
         return currentPage;
     }
 
     public int getTotalCount() {
+
         return totalCount;
     }
 
     public int getPageSize() {
         return pageSize;
+    }
+
+    public int getStartPage() {
+        return getCurrentPage() == 1 ? 0 : getPrePage() * getPageSize();
+    }
+
+    public int getLastPage() {
+        int last = getStartPage() + getPageSize();
+
+        if (last > data.size()) {
+//            if (totalCount%pageSize==0){
+//                last =getStartPage() + getPageSize();
+//            }else {
+            last = getStartPage() + (totalCount % pageSize);
+//            }
+        }
+        return last;
     }
 
     public void setData(List<User> data) {
@@ -109,3 +132,4 @@ public class PageBean {
                 '}';
     }
 }
+
