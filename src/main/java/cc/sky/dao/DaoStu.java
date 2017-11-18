@@ -7,6 +7,7 @@ import org.apache.commons.dbutils.DbUtils;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
+import org.apache.commons.dbutils.handlers.ScalarHandler;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -39,6 +40,26 @@ public class DaoStu {
         List<User> list;
         try {
             list = qR.query(sql,new BeanListHandler<User>(User.class));
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        for (int i = 0; i < list.size(); i++) {
+            list.get(i).setId(i + 1);
+        }
+
+        return list;
+
+    }
+
+    public List<User> FindAll(int currentPage, int pageSize) {
+        String sql = "Select * from table_user limit ?,?";
+        QueryRunner qR = new QueryRunner(ds);
+        Integer[] params = new Integer[]{currentPage, pageSize};
+        List<User> list;
+        try {
+            list = qR.query(sql, new BeanListHandler<User>(User.class), (Object[]) params);
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -98,6 +119,37 @@ public class DaoStu {
         }
     }
 
+    public int getCount() {
+
+        String sql = "Select Count(*) from table_user";
+
+        QueryRunner qR = new QueryRunner(ds);
+        Number number = null;
+        try {
+            number = (Number) qR.query(sql, new ScalarHandler());
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return number != null ? number.intValue() : 0;
+    }
+
+    public void UpdateIndex() {
+        String[] sql = new String[]{"ALTER TABLE table_user DROP uid",
+                "ALTER TABLE table_user ADD uid INT(50) NOT NULL PRIMARY KEY AUTO_INCREMENT",
+                "CREATE UNIQUE INDEX table_user_uid_uindex ON table_user (uid)",
+                "ALTER TABLE table_user MODIFY COLUMN uid INT(50) NOT NULL AUTO_INCREMENT FIRST"};
+
+        for (int i = 0; i < sql.length; i++) {
+            try {
+                Connection c = ds.getConnection();
+                c.prepareStatement(sql[i]).execute();
+                c.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
 
     @Test
@@ -111,19 +163,22 @@ public class DaoStu {
     @Ignore
     public void fun2(){
 
-        User u = new User();
-        u.setUsername("tttt");
-        u.setPassword("123");
-        Add(u);
+        int i = getCount();
+        System.out.println(i);
 
     }
     @Test
     @Ignore
     public void fun3(){
-        User u = SelectByName("zzq55");
 
-        System.out.println(u);
+        List list = FindAll(1, 8);
+        System.out.println(list);
 
     }
 
+    @Test
+    @Ignore
+    public void fun4() {
+        UpdateIndex();
+    }
 }

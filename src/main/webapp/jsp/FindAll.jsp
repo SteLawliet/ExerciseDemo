@@ -10,6 +10,7 @@
 <%@ page isELIgnored ="false"%>
 <html>
 <head>
+    <%--<link href="github.css" rel="stylesheet"/>--%>
     <title>Title</title>
     <style type="text/css">
         table,th,td{
@@ -28,7 +29,7 @@
 </head>
 <body>
 <table width="60%" align="center" cellpadding="10px" cellspacing="0" border="1px">
-    <tr bgcolor="#5f9ea0">
+    <tr>
         <th>id</th>
         <th>username</th>
         <th>password</th>
@@ -43,7 +44,7 @@
             <tr>
 
                 <td>
-                    <input type="text" name="id" value="${user.id}" readonly="readonly">
+                    <input type="text" name="id" value="${user.uid}" readonly="readonly">
                 </td>
                 <td>
                     <input type="text" name="username" value="${user.username}">

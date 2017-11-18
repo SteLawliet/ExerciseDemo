@@ -68,7 +68,7 @@ public class BaseServlet extends HttpServlet {
 
     }
 
-    public String FindAll(HttpServletRequest req, HttpServletResponse resp){
+    public String FindAll0(HttpServletRequest req, HttpServletResponse resp) {
         DaoStu daoStu = new DaoStu();
         List<User> list = daoStu.FindAll();
         String currentPage = req.getParameter("currentPage");
@@ -83,6 +83,24 @@ public class BaseServlet extends HttpServlet {
         req.setAttribute("PageBean", pageBean);
         return "f:/index.jsp";
     }
+
+    public String FindAll(HttpServletRequest req, HttpServletResponse resp) {
+        DaoStu daoStu = new DaoStu();
+        String currentPage = req.getParameter("currentPage");
+        int currentPage0 = currentPage == null || currentPage.equals("")
+                ? 1 : Integer.parseInt(currentPage);
+        PageBean pageBean =
+                new PageBean(currentPage0, daoStu.getCount(), 10);
+
+        List<User> list = daoStu.FindAll((currentPage0 - 1) * pageBean.getPageSize(), pageBean.getPageSize());
+//        List<User> list0 = list.subList(pageBean.getStartPage(), pageBean.getLastPage());
+
+        req.setAttribute("UserList", list);
+        req.setAttribute("PageBean", pageBean);
+        return "f:/index.jsp";
+    }
+
+
 
 
     public String Add(HttpServletRequest req, HttpServletResponse resp){
@@ -147,6 +165,7 @@ public class BaseServlet extends HttpServlet {
         DaoStu daoStu = new DaoStu();
         String username = req.getParameter("username");
         daoStu.Delete(username);
+        daoStu.UpdateIndex();
         req.getSession().setAttribute("UserList",daoStu.FindAll());
         return "f:/index.jsp";
     }

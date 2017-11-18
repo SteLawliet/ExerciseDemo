@@ -12,11 +12,12 @@
 <head>
 
     <title>Title</title>
+    <link href="./jsp/github.css" rel="stylesheet"/>
     <style type="text/css">
         #div1 {
             width: 75%;
             height: auto;
-            margin: 0% 28%;
+            margin: 0 28%;
         }
     </style>
     <script type="text/javascript">
