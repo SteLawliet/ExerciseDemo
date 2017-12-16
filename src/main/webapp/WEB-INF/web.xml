@@ -30,4 +30,45 @@
         <filter-name>AFilter</filter-name>
         <url-pattern>/u</url-pattern>
     </filter-mapping>
+    <filter>
+        <filter-name>BFilter</filter-name>
+        <filter-class>cc.sky.servlet.BFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>BFilter</filter-name>
+        <url-pattern>/M</url-pattern>
+
+    </filter-mapping>
+    <filter>
+        <filter-name>mFilter</filter-name>
+        <filter-class>cc.sky.servlet.MyResponseFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>mFilter</filter-name>
+        <url-pattern>/dServlet</url-pattern>
+        <!--<url-pattern>/MyServlet</url-pattern>-->
+        <url-pattern>/l</url-pattern>
+    </filter-mapping>
+    <filter>
+        <filter-name>GFilter</filter-name>
+        <filter-class>cc.sky.servlet.GZIPFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>GFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    <servlet>
+        <servlet-name>mServlet</servlet-name>
+        <servlet-class>cc.sky.servlet.MyServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>mServlet</servlet-name>
+        <url-pattern>/MyServlet</url-pattern>
+    </servlet-mapping>
+    <listener>
+        <listener-class>cc.sky.servlet.IpListener</listener-class>
+    </listener>
+    <session-config>
+        <session-timeout>1</session-timeout>
+    </session-config>
 </web-app>

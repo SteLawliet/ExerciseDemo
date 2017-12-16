@@ -43,8 +43,7 @@ public class AFilter implements Filter {
 
     }
 
-    public void init(FilterConfig config) throws ServletException {
-        System.out.println("#######AFilter######1");
+    public void init(FilterConfig config) {
         this.filterConfig = config;
     }
 

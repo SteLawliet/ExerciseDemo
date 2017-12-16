@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>bluer</title>
+    <script>
+        window.onload = function () {
+            var b0 = document.getElementById("b");
+            b0.onblur = function () {
+                var msg = "";
+                if (b0.value == "zzq") {
+
+                    msg = "already".fontcolor("#ff0913");
+                } else {
+
+                    msg = "right";
+                }
+                var ss = document.getElementById("s");
+                s.innerHTML = msg;
+            }
+        }
+
+    </script>
+</head>
+<body>
+<input id="b" type="text" on><span id="s"></span>
+</body>
+</html>

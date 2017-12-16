@@ -34,9 +34,11 @@ public class BaseServlet extends HttpServlet {
 
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp)
-            throws ServletException, IOException {
+            throws IOException {
         req.setCharacterEncoding("utf-8");
-        resp.setContentType("text/html;charset=utf-8");
+
+        resp.setContentType("text/html;charset=UTF-8");
+
         String method = req.getParameter("method");
 
         Method method1 = null;
@@ -84,11 +86,24 @@ public class BaseServlet extends HttpServlet {
         return "f:/index.jsp";
     }
 
+    public String JqueryAjax(HttpServletRequest req, HttpServletResponse resp) {
+
+        String s = req.getParameter("ajax");
+
+        try {
+            resp.getWriter().print("ajaxSuccess callback " + s);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public String FindAll(HttpServletRequest req, HttpServletResponse resp) {
         DaoStu daoStu = new DaoStu();
         String currentPage = req.getParameter("currentPage");
+        System.out.println(currentPage);
         int currentPage0 = currentPage == null || currentPage.equals("")
-                ? 1 : Integer.parseInt(currentPage);
+                ? 1 : Integer.parseInt(currentPage.trim());
         PageBean pageBean =
                 new PageBean(currentPage0, daoStu.getCount(), 10);
 
@@ -176,5 +191,10 @@ public class BaseServlet extends HttpServlet {
         String co  = String.valueOf(i);
         req.getSession().setAttribute("num",co);
         return "f:/jsp/Test.jsp";
+    }
+
+    public String Html(HttpServletRequest req, HttpServletResponse resp) {
+
+        return "f:/jsp/ajax.jsp?t=" + Math.random();
     }
 }
