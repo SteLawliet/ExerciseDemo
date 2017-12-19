@@ -26,6 +26,7 @@ import cc.sky.Domain.User;
  */
 public class DaoStu {
     private static DataSource ds =null;
+
     private Connection con = null;
 
     public DaoStu() {

@@ -8,18 +8,23 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
-import javax.servlet.annotation.WebFilter;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * Created by Stelawliet on 17/12/13.
  */
 public class BFilter implements Filter {
-    private int i = 0;
 
     public void destroy() {
     }
 
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws ServletException, IOException {
+        HttpServletRequest httpServletRequest = (HttpServletRequest) req;
+        HttpServletResponse httpServletResponse = (HttpServletResponse) resp;
+        httpServletRequest.setCharacterEncoding("UTF-8");
+        httpServletResponse.setCharacterEncoding("UTF-8");
+        httpServletResponse.setContentType("text/html;charset=UTF-8");
         chain.doFilter(req, resp);
     }
 

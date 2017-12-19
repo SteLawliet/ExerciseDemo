@@ -73,5 +73,6 @@
 <%--tsetgit--%>
 <!--ss-->
 <a href="<c:url value='/BServlet?method=Html'/>">BServlet</a>
+<a href="<c:url value='/jsp/upload.html'/>">upload</a>
 </body>
 </html>

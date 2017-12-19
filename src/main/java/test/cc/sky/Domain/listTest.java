@@ -3,6 +3,7 @@ package test.cc.sky.Domain;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -49,10 +50,14 @@ public class listTest {
     @Test
     @Ignore
     public void fun3() {
-        User u0 = new User();
-        u0.setId(001);
-        fun4(u0);
-        System.out.println(u0);
+        try {
+            String s = new String("哎哎哎".getBytes(), "ISO8859-1");
+            byte[] bytes = s.getBytes("ISO8859-1");
+            s = new String(bytes, "UTF-8");
+            System.out.println(s);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
 
     }
 

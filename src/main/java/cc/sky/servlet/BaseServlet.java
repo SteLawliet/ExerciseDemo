@@ -50,7 +50,7 @@ public class BaseServlet extends HttpServlet {
             method1 = c.getMethod(method,HttpServletRequest.class,HttpServletResponse.class);
 
         } catch (Exception e) {
-            throw new RuntimeException("this method is null");
+            throw new RuntimeException("the method is null");
         }
         try {
             String result = (String) method1.invoke(this,req,resp);
@@ -61,7 +61,7 @@ public class BaseServlet extends HttpServlet {
             if (strings[0].equals("f")){
                 req.getRequestDispatcher(strings[1]).forward(req,resp);
             }else if (strings[0].equals("r")){
-                resp.sendRedirect(strings[1]);
+                resp.sendRedirect(req.getContextPath() + strings[1]);
             }
         } catch (Exception e) {
             throw new RuntimeException(e);

@@ -36,7 +36,7 @@
     </filter>
     <filter-mapping>
         <filter-name>BFilter</filter-name>
-        <url-pattern>/M</url-pattern>
+        <url-pattern>/*</url-pattern>
 
     </filter-mapping>
     <filter>
@@ -61,6 +61,14 @@
         <servlet-name>mServlet</servlet-name>
         <servlet-class>cc.sky.servlet.MyServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>MServlet</servlet-name>
+        <servlet-class>cc.practise.MServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>MServlet</servlet-name>
+        <url-pattern>/MServlet</url-pattern>
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>mServlet</servlet-name>
         <url-pattern>/MyServlet</url-pattern>
