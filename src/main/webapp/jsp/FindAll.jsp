@@ -41,6 +41,10 @@
 
         }
 
+        table tr:nth-child(2n+1) {
+            background-color: #6d8691;
+        }
+
         a {
             text-decoration: none;
         }
@@ -52,7 +56,7 @@
 
             for (var i = 0; i < lis.length; i++) {
                 if (i % 2 === 0) {
-                    lis[i].style.background = '#abc';
+                    // lis[i].style.background = '#abc';
                     // jQuery(lis[i]).find('input').css('background','#abc');
                 }
             }
@@ -76,7 +80,7 @@
 </head>
 <body>
 <table width="60%" align="center" cellpadding="10px" cellspacing="0" border="1px">
-    <tr bgcolor="#5f9ea0">
+    <tr>
         <th>id</th>
         <th>username</th>
         <th>password</th>
@@ -85,11 +89,10 @@
     </tr>
 
     <c:forEach items="${UserList}" var="user">
-        <form action="<c:url value='/BServlet'/>" method="post">
-            <input type="hidden" name="method" value="Update">
-            <input type="hidden" name="uid" value="${user.uid}">
-            <tr>
-
+        <tr class="tr0">
+            <form action="<c:url value='/BServlet'/>" method="post">
+                <input type="hidden" name="method" value="Update">
+                <input type="hidden" name="uid" value="${user.uid}">
                 <td>
                     <input type="text" name="id" value="${user.uid}" readonly="readonly">
                 </td>
@@ -106,8 +109,8 @@
                 <td>
                     <input type="submit" value="editor">
                 </td>
-            </tr>
-        </form>
+            </form>
+        </tr>
     </c:forEach>
 
     <tr>

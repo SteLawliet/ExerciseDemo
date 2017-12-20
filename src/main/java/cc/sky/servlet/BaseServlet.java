@@ -91,7 +91,7 @@ public class BaseServlet extends HttpServlet {
         String s = req.getParameter("ajax");
 
         try {
-            resp.getWriter().print("ajaxSuccess callback " + s);
+            resp.getWriter().print("ajaxSuccess callback1 " + s);
         } catch (IOException e) {
             e.printStackTrace();
         }
