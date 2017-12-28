@@ -4,12 +4,18 @@ import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.BeanHandler;
+import org.junit.Ignore;
+import org.junit.Test;
 
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.sql.SQLException;
 
+import javax.sound.midi.Soundbank;
 import javax.sql.DataSource;
 
 import cc.Annotation.TableName;
+import cc.sky.Domain.User;
 
 /**
  * Created by Stelawliet on 17/12/20.
@@ -20,17 +26,18 @@ public class DaoBean<T> {
     private String tableName;
     private Class beanClass;
 
-    public DaoBean(T t) {
-        if (null == ds) {
-            ds = new ComboPooledDataSource();
-        }
+    static {
+        ds = new ComboPooledDataSource();
+    }
 
-        System.out.println(this.getClass().getGenericSuperclass());
+    public DaoBean() {
+
+        Type type = this.getClass().getGenericSuperclass();
+        ParameterizedType type1 = (ParameterizedType) type;
+        beanClass = (Class) type1.getActualTypeArguments()[0];
 
 
-        tableName = t.getClass().getAnnotation(TableName.class).value();
-
-        beanClass = t.getClass();
+//        tableName = t.getClass().getAnnotation(TableName.class).value();
 
     }
 
@@ -44,12 +51,15 @@ public class DaoBean<T> {
 
         T t1 = null;
         try {
-            t1 = qR.query(sql, new BeanHandler<T>(beanClass), name);
+            t1 = qR.query(sql, new MyBeanHandler<T>(beanClass), name);
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return t1;
     }
 
+}
+
+class DaoUser extends DaoBean<User> {
 
 }

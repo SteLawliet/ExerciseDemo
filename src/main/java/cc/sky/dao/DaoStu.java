@@ -231,4 +231,9 @@ public class DaoStu {
         System.out.println(u);
     }
 
+    @Test
+    @Ignore
+    public void fun6() {
+        DaoUser daoUser = new DaoUser();
+    }
 }

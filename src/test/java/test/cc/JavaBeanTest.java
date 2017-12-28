@@ -30,7 +30,7 @@ public class JavaBeanTest {
     @Ignore
     public void fun2() {
         User user = new User();
-        DaoJ daoJ = new DaoJ(user);
+        DaoJ daoJ = new DaoJ();
         System.out.println(daoJ.SelectByName("zzq"));
     }
 
