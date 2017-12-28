@@ -8,6 +8,7 @@ import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.apache.commons.dbutils.handlers.ScalarHandler;
+import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -19,6 +20,8 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
+import cc.practise.MyExClass;
+import cc.sky.Domain.Teacher;
 import cc.sky.Domain.User;
 
 /**
@@ -153,6 +156,41 @@ public class DaoStu {
     }
 
 
+    public Teacher SelectByName0(String name) {
+
+        String sql = "Select * from table_user where username =?";
+
+        QueryRunner qR = new QueryRunner(ds);
+
+        Teacher teacher = null;
+
+        try {
+            teacher = qR.query(sql, new MyBeanHandler<Teacher>(Teacher.class), name);
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return teacher;
+    }
+
+    public Teacher SelectByName1(String name) {
+
+        String sql = "Select * from table_user where username = ?";
+
+        QueryRunner qR = new QueryRunner(ds);
+
+        Teacher teacher = null;
+
+        try {
+            teacher = qR.query(sql, new MyBeanHandler<Teacher>(Teacher.class), name);
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return teacher;
+    }
+
+
     @Test
     @Ignore
     public void fun1(){
@@ -180,6 +218,17 @@ public class DaoStu {
     @Test
     @Ignore
     public void fun4() {
-        UpdateIndex();
+
+        Teacher teacher = SelectByName1("zzq");
+        System.out.println(teacher);
     }
+
+
+    @Test
+    @Ignore
+    public void fun5() {
+        User u = SelectByName("zzq");
+        System.out.println(u);
+    }
+
 }

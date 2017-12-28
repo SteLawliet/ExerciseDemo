@@ -9,11 +9,9 @@ import org.apache.commons.beanutils.BeanUtils;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.Arrays;
 import java.util.List;
 
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -28,10 +26,11 @@ import cc.sky.dao.DaoTest;
  */
 //@WebServlet(name = "BaseServlet",urlPatterns = "/BServlet")
 public class BaseServlet extends HttpServlet {
-    public static int count =0;
+    private static int count = 0;
 
     public static int i = 0;
 
+    @SuppressWarnings({"unchecked"})
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp)
             throws IOException {
@@ -88,7 +87,35 @@ public class BaseServlet extends HttpServlet {
 
     public String JqueryAjax(HttpServletRequest req, HttpServletResponse resp) {
 
+
         String s = req.getParameter("ajax");
+        String s0 = req.getParameter("callback");
+        Cookie[] cookies = req.getCookies();
+        String coo = null;
+        for (Cookie c : cookies
+                ) {
+            if (c.getName().equals("tCookie")) {
+                coo = c.getValue();
+                System.out.println(c.getPath());
+            }
+        }
+        if (coo == null) {
+            Cookie cookie = new Cookie("tCookie", String.valueOf(i++));
+            resp.addCookie(cookie);
+        }
+        System.out.println(req.getRequestURI());
+        String call = s0 + "(" + "{" + "\"ajax\"" + ":" + "\"jquery:josnp\"," + "cookie" + ":" + "\"" + coo + "\"" + "}" + ")";
+        System.out.println(call);
+        if (s.equals("jquery:jsonp")) {
+            try {
+//                resp.setContentType("application/json;charset=utf-8");
+                resp.getWriter().print(call);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
 
         try {
             resp.getWriter().print("ajaxSuccess callback1 " + s);

@@ -1,14 +1,12 @@
 package cc.sky.Domain;
 
 import cc.Annotation.Column;
-import cc.Annotation.Name;
-import cc.Annotation.TableName;
+import jdk.nashorn.internal.ir.annotations.Reference;
 
 /**
  * Created by Stelawliet on 17/11/6.
  */
-@TableName("table_user")
-public class User {
+public class Teacher {
     private int id;
     @Column("uid")
     private String uid;
@@ -17,20 +15,20 @@ public class User {
     @Column("password")
     private String password;
 
-    public User(int id, String uid, String username, String password) {
+    public Teacher(int id, String uid, String username, String password) {
         this.id = id;
         this.uid = uid;
         this.username = username;
         this.password = password;
     }
 
-    public User(int id, String username, String password) {
+    public Teacher(int id, String username, String password) {
         this.id = id;
         this.username = username;
         this.password = password;
     }
 
-    public User() {
+    public Teacher() {
     }
 
     public int getId() {
@@ -67,11 +65,11 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{" +
+        return "Teacher{" +
                 "id=" + id +
                 ", uid='" + uid + '\'' +
                 ", username='" + username + '\'' +
-                ", password0='" + password + '\'' +
+                ", password='" + password + '\'' +
                 '}';
     }
 }

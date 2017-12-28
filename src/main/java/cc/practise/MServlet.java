@@ -157,7 +157,9 @@ public class MServlet extends HttpServlet {
 //        String filename = new String("中文文件名.xls".getBytes(), "ISO8859-1");
         response.setContentType("application/octet-stream");
         response.setHeader("content-disposition",
-                "attachment;filename=" + new String(downFile.getBytes(), "ISO8859-1"));
+                "attachment;filename=" +
+                        new String(downFile.getBytes("utf-8"),
+                                "ISO-8859-1"));
 
         DaoFile daoFile = new DaoFile();
         FileBean fileBean = daoFile.FindFileByName(downFile);

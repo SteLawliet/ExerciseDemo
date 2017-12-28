@@ -11,7 +11,8 @@
             margin: 0 auto;
         }
     </style>
-    <script src="/Demo/jsp/js/jquery-3.2.js"></script>
+    <!--<script src="/Demo/jsp/js/jquery-3.2.js"></script>-->
+    <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
     <script>
         // window.onload = function () {
         //     var username = document.getElementById("username");
@@ -31,9 +32,9 @@
         jQuery(function () {
             jQuery('input[value=js_post]').click(function () {
                 var xhr = new XMLHttpRequest();
-                xhr.open('post', 'http://localhost:8080/Demo/BServlet', true);
+                xhr.open('post', 'http://localhost:7070/Demo/BServlet', true);
                 xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-                xhr.send("method=JqueryAjax&ajax=js-post");
+                xhr.send("method=JqueryAjax&ajax=js_post");
                 // method:JqueryAjax",
                 // ajax:"js-get"
                 xhr.onreadystatechange = function () {
@@ -46,7 +47,7 @@
             });
             jQuery('input[value=js_get]').click(function () {
                 var xhr = new XMLHttpRequest();
-                xhr.open('get', 'http://localhost:8080/Demo/BServlet?method=JqueryAjax&ajax=js-get', true);
+                xhr.open('get', 'http://localhost:7070/Demo/BServlet?method=JqueryAjax&ajax=js-get', true);
                 // xhr.setRequestHeader('Content-type','application/x-www-form-urlencoded');
                 xhr.send();
                 xhr.onreadystatechange = function () {
@@ -88,6 +89,30 @@
                     }, "text");
 
             });
+
+            jQuery('input[value=js_p]').on('click', function () {
+
+                // document.cookie="tCookie=1;";
+
+                console.log('josn_p is clicked');
+                jQuery.getJSON(
+                    'http://localhost:7070/Demo/BServlet?method=JqueryAjax&ajax=jquery:jsonp&callback=?',
+                    function (data) {
+                        jQuery(".jsonp").text(data.ajax + data.cookie);
+                        console.log(data);
+                    }
+                );
+            });
+
+            jQuery('input[value=load]').click(function () {
+                jQuery(this).load('/Demo/BServlet', {
+                    "method": "JqueryAjax",
+                    "ajax": "jquery:load"
+                }, function (data) {
+
+                    jQuery('.get').text(data);
+                });
+            });
         });
     </script>
 </head>
@@ -97,10 +122,15 @@
 <input type="button" value="ajax">
 <input type="button" value="js_get">
 <input type="button" value="js_post">
+<input type="button" value="js_p">
+<input type="button" value="load">
+
+
 <div class="div0">
     <p class="get"></p>
     <p class="post"></p>
     <p class="ajax"></p>
+    <p class="jsonp"></p>
 </div>
 </body>
 </html>

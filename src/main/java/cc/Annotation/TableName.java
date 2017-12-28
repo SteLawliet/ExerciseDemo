@@ -1,4 +1,4 @@
-package cc.practise;
+package cc.Annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -6,10 +6,10 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Created by Stelawliet on 17/12/19.
+ * Created by Stelawliet on 17/12/21.
  */
+@Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-//@Target({ElementType.METHOD})
-public @interface Myan {
-    int value();
+public @interface TableName {
+    String value();
 }
