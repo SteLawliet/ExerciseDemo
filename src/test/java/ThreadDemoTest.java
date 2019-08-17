@@ -100,8 +100,15 @@ public class ThreadDemoTest {
         System.out.println(ints[0]);
     }
 
+
     private void changeString(int[] i) {
 
         i[0]=2;
+    }
+
+    @Test
+    @Ignore
+    public void fun3() {
+        int a = 0;
     }
 }

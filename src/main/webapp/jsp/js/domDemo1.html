@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>the is a title</title>
+</head>
+<body>
+<form>
+    <input type="checkbox" value="1000" class="se">1000
+    <input type="checkbox" value="2000" class="se">2000
+    <input type="checkbox" value="3000" class="se">3000
+    <input type="checkbox" value="4000" class="se">4000
+    <input type="checkbox" value="5000" class="se">5000
+    <input type="checkbox" onclick="checkAll()">all
+    <input type="button" onclick="getSum()" value="sum">
+    <span>&nbsp;</span>
+    <span>sum =</span>
+</form>
+</body>
+<script>
+    function checkAll() {
+
+        var checkList = document.getElementsByTagName("input");
+        for (var i = 0; i < 5; i++) {
+            checkList[i].checked = checkList[5].checked;
+        }
+    }
+
+    function getSum() {
+        var checkList = document.getElementsByTagName("input");
+        var span = document.getElementsByTagName("span")[1];
+        span.innerHTML = "sum =";
+        var sum = 0;
+        for (var i = 0; i < 5; i++) {
+            if (checkList[i].checked) {
+                sum += parseInt(checkList[i].value);
+            }
+        }
+        span.innerHTML += sum;
+    }
+
+    function insertber() {
+
+    }
+</script>
+</html>

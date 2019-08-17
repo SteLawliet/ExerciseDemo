@@ -31,6 +31,19 @@ public class PageBean {
         this.pageSize = pageSize;
     }
 
+    public PageBean(int currentPage, int totalCount, int pageSize) {
+        this.firstPage = 1;
+        this.currentPage = currentPage;
+        this.totalPage = totalCount % pageSize == 0
+                ? totalCount / pageSize : totalCount / pageSize + 1;
+        this.prePage = currentPage - 1 < firstPage ? currentPage : currentPage - 1;
+        this.nextPage = currentPage + 1 > totalPage ? currentPage : currentPage + 1;
+        this.totalCount = totalCount;
+        this.pageSize = pageSize;
+    }
+
+
+
     public PageBean() {
     }
 

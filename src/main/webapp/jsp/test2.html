@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>div-test</title>
+    <style type="text/css">
+        div {
+            border: 1px seagreen solid;
+            font-family: 'DejaVu Sans', Arial, Helvetica, sans-serif;
+        }
+
+        #main {
+            margin: 10% 30%;
+            padding: 1% 5%;
+        }
+
+        #main div {
+            border: none;
+            margin: 5% 10%;
+        }
+
+        form {
+            border: 0px #4183C4 solid;
+        }
+    </style>
+</head>
+<body>
+<div id="main">
+    <form>
+        <div>username:<input type="text" name="username"></div>
+        <div>password:<input type="password" name="password"></div>
+        <div><input type="submit" name="sign in"/>&nbsp;&nbsp;
+            <button type="button" name="sign up">s</button>
+        </div>
+    </form>
+</div>
+</body>
+</html>

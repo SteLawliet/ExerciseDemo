@@ -1,12 +1,20 @@
 package cc.sky.Domain;
 
+import cc.Annotation.Column;
+import cc.Annotation.Name;
+import cc.Annotation.TableName;
+
 /**
  * Created by Stelawliet on 17/11/6.
  */
+@TableName("table_user")
 public class User {
     private int id;
+    @Column("uid")
     private String uid;
+    @Column("username")
     private String username;
+    @Column("password")
     private String password;
 
     public User(int id, String uid, String username, String password) {
@@ -63,7 +71,7 @@ public class User {
                 "id=" + id +
                 ", uid='" + uid + '\'' +
                 ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
+                ", password0='" + password + '\'' +
                 '}';
     }
 }

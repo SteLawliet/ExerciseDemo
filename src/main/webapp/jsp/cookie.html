@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/jquery-3.2.js"></script>
+    <script src="js/jquery.cookie.js"></script>
+    <script>
+        jQuery(function () {
+            jQuery('input[type=button]').click(function () {
+                var cookieVal = jQuery('input[name=cookie]').val();
+                console.log(cookieVal);
+                jQuery.cookie("coo", cookieVal);
+                var coo = jQuery.cookie("coo");
+                console.log(coo);
+                var jp = jQuery("<p></p>");
+                jp.text(jQuery.cookie("coo"));
+                jQuery('body').append(jp);
+            });
+        });
+    </script>
+</head>
+<body>
+<label for="c">cookie:</label> <input type="text" name="cookie" id="c">
+<br><input type="button" value="SetCookie">
+
+</body>
+</html>

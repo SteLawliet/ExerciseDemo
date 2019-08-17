@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        form input {
+            margin: 20px auto;
+        }
+
+        .div {
+            margin: 20px auto;
+            text-align: center;
+        }
+    </style>
+    <script src="js/jquery-3.2.js"></script>
+    <script>
+        jQuery(function () {
+            jQuery('input[type=submit]').on('click', function () {
+                return confirm('are you sure submit');
+            });
+        });
+    </script>
+</head>
+<body>
+<div class="div">
+    <form action="/Demo/MServlet?method=Upload" method="post" enctype="multipart/form-data">
+        <!--<input type="text" name="method" value="Upload" hidden="hidden">-->
+        <input type="file" name="uploadFile1"/><br>
+        <input type="text" name="File1Text" id="1"><br>
+        <input type="file" name="uploadFile2"/><br>
+        <input type="text" name="File2Text" id="2"><br>
+        <input type="file" name="uploadFile3"/><br>
+        <input type="text" name="File3Text" id="3"><br>
+
+        <input type="submit"> &nbsp; <input type="reset">
+    </form>
+    <p>
+        <a href="/Demo/jsp/CourseDesignSql/bootstrap-study/form.html">bootstrap</a>
+    </p>
+</div>
+</body>
+</html>

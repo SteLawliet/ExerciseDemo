@@ -9,11 +9,9 @@ import org.apache.commons.beanutils.BeanUtils;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.Arrays;
 import java.util.List;
 
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -28,15 +26,18 @@ import cc.sky.dao.DaoTest;
  */
 //@WebServlet(name = "BaseServlet",urlPatterns = "/BServlet")
 public class BaseServlet extends HttpServlet {
-    public static int count =0;
+    private static int count = 0;
 
     public static int i = 0;
 
+    @SuppressWarnings({"unchecked"})
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp)
-            throws ServletException, IOException {
+            throws IOException {
         req.setCharacterEncoding("utf-8");
-        resp.setContentType("text/html;charset=utf-8");
+
+        resp.setContentType("text/html;charset=UTF-8");
+
         String method = req.getParameter("method");
 
         Method method1 = null;
@@ -48,7 +49,7 @@ public class BaseServlet extends HttpServlet {
             method1 = c.getMethod(method,HttpServletRequest.class,HttpServletResponse.class);
 
         } catch (Exception e) {
-            throw new RuntimeException("this method is null");
+            throw new RuntimeException("the method is null");
         }
         try {
             String result = (String) method1.invoke(this,req,resp);
@@ -59,7 +60,7 @@ public class BaseServlet extends HttpServlet {
             if (strings[0].equals("f")){
                 req.getRequestDispatcher(strings[1]).forward(req,resp);
             }else if (strings[0].equals("r")){
-                resp.sendRedirect(strings[1]);
+                resp.sendRedirect(req.getContextPath() + strings[1]);
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -68,7 +69,7 @@ public class BaseServlet extends HttpServlet {
 
     }
 
-    public String FindAll(HttpServletRequest req, HttpServletResponse resp){
+    public String FindAll0(HttpServletRequest req, HttpServletResponse resp) {
         DaoStu daoStu = new DaoStu();
         List<User> list = daoStu.FindAll();
         String currentPage = req.getParameter("currentPage");
@@ -83,6 +84,65 @@ public class BaseServlet extends HttpServlet {
         req.setAttribute("PageBean", pageBean);
         return "f:/index.jsp";
     }
+
+    public String JqueryAjax(HttpServletRequest req, HttpServletResponse resp) {
+
+
+        String s = req.getParameter("ajax");
+        String s0 = req.getParameter("callback");
+        Cookie[] cookies = req.getCookies();
+        String coo = null;
+        for (Cookie c : cookies
+                ) {
+            if (c.getName().equals("tCookie")) {
+                coo = c.getValue();
+                System.out.println(c.getPath());
+            }
+        }
+        if (coo == null) {
+            Cookie cookie = new Cookie("tCookie", String.valueOf(i++));
+            resp.addCookie(cookie);
+        }
+        System.out.println(req.getRequestURI());
+        String call = s0 + "(" + "{" + "\"ajax\"" + ":" + "\"jquery:josnp\"," + "cookie" + ":" + "\"" + coo + "\"" + "}" + ")";
+        System.out.println(call);
+        if (s.equals("jquery:jsonp")) {
+            try {
+//                resp.setContentType("application/json;charset=utf-8");
+                resp.getWriter().print(call);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        try {
+            resp.getWriter().print("ajaxSuccess callback1 " + s);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public String FindAll(HttpServletRequest req, HttpServletResponse resp) {
+        DaoStu daoStu = new DaoStu();
+        String currentPage = req.getParameter("currentPage");
+        System.out.println(currentPage);
+        int currentPage0 = currentPage == null || currentPage.equals("")
+                ? 1 : Integer.parseInt(currentPage.trim());
+        PageBean pageBean =
+                new PageBean(currentPage0, daoStu.getCount(), 10);
+
+        List<User> list = daoStu.FindAll((currentPage0 - 1) * pageBean.getPageSize(), pageBean.getPageSize());
+//        List<User> list0 = list.subList(pageBean.getStartPage(), pageBean.getLastPage());
+
+        req.setAttribute("UserList", list);
+        req.setAttribute("PageBean", pageBean);
+        return "f:/index.jsp";
+    }
+
+
 
 
     public String Add(HttpServletRequest req, HttpServletResponse resp){
@@ -147,6 +207,7 @@ public class BaseServlet extends HttpServlet {
         DaoStu daoStu = new DaoStu();
         String username = req.getParameter("username");
         daoStu.Delete(username);
+        daoStu.UpdateIndex();
         req.getSession().setAttribute("UserList",daoStu.FindAll());
         return "f:/index.jsp";
     }
@@ -157,5 +218,10 @@ public class BaseServlet extends HttpServlet {
         String co  = String.valueOf(i);
         req.getSession().setAttribute("num",co);
         return "f:/jsp/Test.jsp";
+    }
+
+    public String Html(HttpServletRequest req, HttpServletResponse resp) {
+
+        return "f:/jsp/ajax.jsp?t=" + Math.random();
     }
 }

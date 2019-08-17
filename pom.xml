@@ -77,20 +77,44 @@
           </exclusions>
       </dependency>
       <dependency>
+          <groupId>javax.servlet</groupId>
+          <artifactId>javax.servlet-api</artifactId>
+          <version>3.0.1</version>
+      </dependency>
+
+      <dependency>
           <groupId>com.github.flyinghe</groupId>
           <artifactId>common-utils</artifactId>
           <version>1.0.0-RELEASE</version>
       </dependency>
+      <!--io-->
+      <dependency>
+          <groupId>commons-fileupload</groupId>
+          <artifactId>commons-fileupload</artifactId>
+          <version>RELEASE</version>
+      </dependency>
+      <dependency>
+          <groupId>commons-io</groupId>
+          <artifactId>commons-io</artifactId>
+          <version>2.4</version>
+      </dependency>
+      <dependency>
+          <groupId>javax.mail</groupId>
+          <artifactId>mail</artifactId>
+          <version>1.4.5</version>
+      </dependency>
+
   </dependencies>
-  <build>
+
+    <build>
     <finalName>ExerciseDemo</finalName>
       <plugins>
           <plugin>
               <groupId>org.apache.maven.plugins</groupId>
               <artifactId>maven-compiler-plugin</artifactId>
               <configuration>
-                  <source>1.6</source>
-                  <target>1.6</target>
+                  <source>1.8</source>
+                  <target>1.8</target>
               </configuration>
           </plugin>
       </plugins>

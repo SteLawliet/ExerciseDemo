@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .div0 {
+            height: 400px;
+            width: 400px;
+            background-color: #ee3871;
+            margin: 0 auto;
+        }
+    </style>
+    <!--<script src="/Demo/jsp/js/jquery-3.2.js"></script>-->
+    <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+    <script>
+        // window.onload = function () {
+        //     var username = document.getElementById("username");
+        //     username.onchange = function () {
+        //         var request = new XMLHttpRequest();
+        //         request.open("POST", "<c:url value='/BServlet'/>", true);
+        //         request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        //         //"Content-Type", "application/x-www-form-urlencoded"
+        //         request.send("method=SelectByName&username=" + username.value);
+        //         request.onreadystatechange = function () {
+        //             var text = request.responseText;
+        //             var msg = document.getElementById("msg");
+        //             msg.textContent= text;
+        //         }
+        //     }
+        // }
+        jQuery(function () {
+            jQuery('input[value=js_post]').click(function () {
+                var xhr = new XMLHttpRequest();
+                xhr.open('post', 'http://localhost:7070/Demo/BServlet', true);
+                xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+                xhr.send("method=JqueryAjax&ajax=js_post");
+                // method:JqueryAjax",
+                // ajax:"js-get"
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        var text = xhr.responseText;
+                        jQuery('.post').text(text);
+                    }
+                }
+
+            });
+            jQuery('input[value=js_get]').click(function () {
+                var xhr = new XMLHttpRequest();
+                xhr.open('get', 'http://localhost:7070/Demo/BServlet?method=JqueryAjax&ajax=js-get', true);
+                // xhr.setRequestHeader('Content-type','application/x-www-form-urlencoded');
+                xhr.send();
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        var text = xhr.responseText;
+                        jQuery('.post').text(text);
+                    }
+                }
+
+            });
+
+            jQuery('input[value=ajax]').on('click', function () {
+                jQuery.ajax('/Demo/BServlet?method=JqueryAjax&ajax=jquery:ajax',
+                    {
+                        success: function (data, stu) {
+                            jQuery('.get').text(data);
+                            console.log(data);
+                        }
+                    });
+            });
+
+            jQuery('input[value=get]').on('click', function () {
+                jQuery.get('/Demo/BServlet?method=JqueryAjax&ajax=jquery:get',
+                    function (data, stu) {
+                        jQuery('.get').text(data);
+                        console.log(data);
+
+                    });
+            });
+            jQuery('input[value=post]').on('click', function () {
+                jQuery.post('/Demo/BServlet',
+                    {
+                        "method": "JqueryAjax",
+                        "ajax": "jquery:post"
+                    },
+                    function (data, stu) {
+                        jQuery('.get').text(data);
+                        console.log(data);
+                    }, "text");
+
+            });
+
+            jQuery('input[value=js_p]').on('click', function () {
+
+                // document.cookie="tCookie=1;";
+
+                console.log('josn_p is clicked');
+                jQuery.getJSON(
+                    'http://localhost:7070/Demo/BServlet?method=JqueryAjax&ajax=jquery:jsonp&callback=?',
+                    function (data) {
+                        jQuery(".jsonp").text(data.ajax + data.cookie);
+                        console.log(data);
+                    }
+                );
+            });
+
+            jQuery('input[value=load]').click(function () {
+                jQuery(this).load('/Demo/BServlet', {
+                    "method": "JqueryAjax",
+                    "ajax": "jquery:load"
+                }, function (data) {
+
+                    jQuery('.get').text(data);
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+<input type="button" value="get">
+<input type="button" value="post">
+<input type="button" value="ajax">
+<input type="button" value="js_get">
+<input type="button" value="js_post">
+<input type="button" value="js_p">
+<input type="button" value="load">
+
+
+<div class="div0">
+    <p class="get"></p>
+    <p class="post"></p>
+    <p class="ajax"></p>
+    <p class="jsonp"></p>
+</div>
+</body>
+</html>
